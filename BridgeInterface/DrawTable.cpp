@@ -40,6 +40,7 @@ int main(int argv, char* argc[])
 
 	GAME_STATUS game(dealer, seed,info[7], info[1], info[2]);//发牌方 种子 局况 当前轮 总轮
 	Player ai(_T("./ai.exe")); //乘3
+	/*希望在这里支持自由的ai数量配置*/
 	CardsImg drawcards;
 	TCHAR output[80];
 	wsprintf(output,_T("ai1状态%d\n,ai2状态\n,ai3状态\n"), ai.StatuCheck());
@@ -115,7 +116,9 @@ int main(int argv, char* argc[])
 			wsprintf(output,_T("当前%d\n"), game.nowBid);
 			outtextxy(0, 0, output);
 
+			/*下面这些也要乘三*/
 			if (process % 10 == aiposition && bidFlag>1)
+				//如果ai之前已经发送了错误的叫牌命令 直接让其pass
 			{
 				result = 0;
 			}
@@ -134,7 +137,8 @@ int main(int argv, char* argc[])
 			bidcheck = game.BID(process % 10, result / 10, result % 10);
 			if (bidcheck == 0)//如果合法 不合法是-1
 			{
-				if (process % 10 != aiposition)
+				//这里需要有一个循环遍历四家 打牌时候也得是这样
+				if (process % 10 != aiposition)//改成不等于当前ai方位呗 出牌到时候也得是
 				{
 					ai.UploadBid(result + process % 10 * 100);
 				}
@@ -153,7 +157,7 @@ int main(int argv, char* argc[])
 			outtextxy(0, 14, output);
 			
 			
-			if (aiposition == game.dummy)
+			if (aiposition == game.dummy)//这个判断届时可以删除了
 			{
 				wsprintf(output, _T("该方位为明手\n现在可以关闭了"));
 				outtextxy(0, 0, output);
@@ -169,7 +173,7 @@ int main(int argv, char* argc[])
 			}
 			if (playFlag == 0)//如果是刚开始打牌
 			{
-				
+				//乘三
 				ai.UploadContover(game.banker * 1000 + game.contover * 100 + game.trump * 10 + game.dbl);
 				//在这里告诉AI订约
 			}
@@ -182,6 +186,7 @@ int main(int argv, char* argc[])
 						aicards[j++] = i;
 					}
 				}
+				//乘三
 				ai.UploadDummy(game.dummy, aicards);
 			}
 			
@@ -197,6 +202,7 @@ int main(int argv, char* argc[])
 				}
 				drawcards.DrawBided(game.bidCount, game.bidRecoder);
 				//开始询问出牌
+				
 				if (aiposition == process % 10)//ai出牌
 				{
 					wsprintf(output,_T("等待ai出牌...\n"));
