@@ -1,37 +1,29 @@
-## Welcome to GitHub Pages
+## ProjectAnna
 
-You can use the [editor on GitHub](https://github.com/Heriyadi235/ProjectAnna/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+- ProjectAnna is a bridge game program based our later work for CGA  
+- ProjectAnna 是一个基于我们在计算机博弈锦标赛作品~~开发~~瞎几把改出来的桥牌游戏  
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+  `桥牌` `计算机博弈`
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
+### 简介
+I have an ~~apple~~ _computer brige AI_  
+I have a ~~pen~~ _bridge game platform_   
+ **duang!**  
+Computer Bridge Game!
+### 文件
 ```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+这我哪知道啊，我就知道那小娘们儿长得 嘿！
 ```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Heriyadi235/ProjectAnna/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+### 食用方法
+```markdown
+这我哪知道啊，我就知道那小娘们儿长得 嘿！
+```
+### 目前的bug
+```markdown
+这我哪知道啊，我就知道那小娘们儿长得 嘿！
+### 最后一项
+```markdown
+这我那知道啊，不过我知道她爹姓许，就是东关卖水那许老头
+```
+[ 作者的邮箱 ](mailto:1945893330@qq.com) _和_
+[ 作者的邮箱 ](mailto:785629645@qq.com)
