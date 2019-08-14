@@ -1,4 +1,12 @@
-## Welcome to GitHub Pages
+## ProjectAnna
+
+ProjectAnna is a bridge game program based our later work for CGA
+ProjectAnna 是一个基于我们在计算机博弈锦标赛作品~~开发~~瞎几把改出来的桥牌游戏
+### 简介
+I have an ~~apple~~ computer brige AI, I have an ~~pen~~ bridge game platform, **duang!** Computer Bridge Game
+### 文件
+### 食用方法
+
 
 You can use the [editor on GitHub](https://github.com/Heriyadi235/ProjectAnna/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
 
