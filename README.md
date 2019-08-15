@@ -27,7 +27,8 @@ Computer Bridge Game!
 这我那知道啊，不过啊，我知道她爹姓许，就是东关卖水那许老头
 ```
 [ 作者的邮箱 ](mailto:1945893330@qq.com) _和_
-[ 作者的邮箱 ](mailto:785629645@qq.com)
+[ 作者的邮箱 ](mailto:785629645@qq.com)  
+[ 主页 ](https://heriyadi235.github.io/ProjectAnna/)
 
 
 111111
