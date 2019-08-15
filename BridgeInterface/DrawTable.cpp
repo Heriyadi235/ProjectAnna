@@ -94,7 +94,7 @@ int main(int argv, char* argc[])
 		case 1:
 			wsprintf(output,_T("叫牌\n"));
 			outtextxy(0, 0, output);
-			drawcards.DrawBids();
+			
 
 			for (int i = 1; i < 8; i++)
 				for (int j = 1; j < 6; j++)
@@ -110,9 +110,11 @@ int main(int argv, char* argc[])
 			for (int i = 0; i < (game.nowBid / 10 % 10 - 1); i++)
 				for (int j = 0; j < 5; j++)
 					avalibleBid[i][j] = -1;//划掉不能叫的行
-			for (int i = 0; i < (game.nowBid % 10); i++)
+			for (int i = 0; i <= (game.nowBid % 10); i++)
 				avalibleBid[(game.nowBid / 10 % 10 - 1)%8][i] = -1;//划掉不能叫的列
 			
+			drawcards.DrawBids(avalibleBid);
+
 			wsprintf(output,_T("当前%d\n"), game.nowBid);
 			outtextxy(0, 0, output);
 
@@ -290,13 +292,17 @@ CardsImg::CardsImg(void)
 	loadimage(&bid_img[90], _T("./bids/90.jpg"));
 	return;
 }
-void CardsImg::DrawBids(void)
+
+void CardsImg::DrawBids(int avaliableBid[8][5])
 {
 	for (int i = 1, n = 130; i <= 7; i++)
 	{
-		for (int j = 0, w = 0; j <= 5; j++)
+		for (int j = 1, w = 0; j <= 5; j++)
 		{
-			putimage(250 + (w++) * 40, n, &bid_img[i * 10 + j]);
+			if (avaliableBid[i - 1][j] == -1)
+				putimage(290 + (w++) * 40, n, &bid_img[01]);
+			else
+				putimage(290 + (w++) * 40, n, &bid_img[i * 10 + j]);
 			if (j == 5)
 				n += 40;
 		}
