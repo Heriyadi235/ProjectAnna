@@ -30,5 +30,3 @@ Computer Bridge Game!
 [ 作者的邮箱 ](mailto:785629645@qq.com)  
 [ 一个主页 ](https://heriyadi235.github.io/ProjectAnna/)
 
-
-111111
