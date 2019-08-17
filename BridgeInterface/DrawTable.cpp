@@ -64,13 +64,13 @@ int main(int argv, char* argc[])
 		if (table[i] != -1)
 			aiPosi[i].UploadInfo(info);
 		else
-			//这里正常是对应的makemove中的操作
 			continue;
 	}
 
 	int playFlag = 0;
 	int bidFlag = 0;//叫牌错误次数
 	int bidcheck = -1;
+
 	//主要过程
 	while (1)
 	{
@@ -115,14 +115,12 @@ int main(int argv, char* argc[])
 			}
 			//绘制
 			drawcards.DrawCards(cards);
-
-			//进行一次轮询的一般操作
+			//广播发牌
 			for (int i = 0; i < 4; i++)
 			{
 				if (table[i] != -1)
 					aiPosi[i].UploadDeal(i, playerHands[i]);
 				else
-					//这里正常是对应的makemove中的操作
 					continue;
 			}
 			break;
@@ -193,8 +191,7 @@ int main(int argv, char* argc[])
 		case 2:
 			wsprintf(output,_T("打牌\n"));
 			outtextxy(0, 14, output);
-			
-			
+		
 			if (aiposition == game.dummy)//这个判断届时可以删除了
 			{
 				wsprintf(output, _T("该方位为明手\n现在可以关闭了"));
