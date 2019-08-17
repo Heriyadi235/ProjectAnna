@@ -274,7 +274,23 @@ Player::Player(LPCWSTR path)
 		SetSecurityDescriptorDacl(&this->sd, true, NULL, false);
 		this->sa.lpSecurityDescriptor = &this->sd;
 	}
-	else this->sa.lpSecurityDescriptor = NULL;
+	else 
+		this->sa.lpSecurityDescriptor = NULL;
+
+	if (this->aiJobObject == NULL)
+	{
+		::MessageBox(0, _T("Could not create job object"), _T("Error"), MB_OK);
+		//this->ErrorHandler();
+		return;
+	}
+
+	this->jeli.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE;
+	if (0 == SetInformationJobObject(aiJobObject, JobObjectExtendedLimitInformation, &this->jeli, sizeof(this->jeli)))
+	{
+		::MessageBox(0, _T("Could not SetInformationJobObject"), _T("Error"), MB_OK);
+		return;
+	}
+
 	this->sa.nLength = sizeof(SECURITY_ATTRIBUTES);
 	this->sa.bInheritHandle = true;         //ÔÊÐí¼Ì³Ð
 
@@ -314,11 +330,17 @@ Player::Player(LPCWSTR path)
 		CloseHandle(write_stdin);
 		return;
 	}
+	if (0 == AssignProcessToJobObject(this->aiJobObject, this->pi.hProcess))
+	{
+		::MessageBox(0, _T("Could not AssignProcessToObject"), _T("Error"), MB_OK);
+		return;
+	}
 	this->PipeStatus = 1;
 }
 
 Player::~Player()
 {
+
 	TerminateProcess(pi.hProcess, 0);
 	CloseHandle(pi.hThread);
 	CloseHandle(pi.hProcess);
