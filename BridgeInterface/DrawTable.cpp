@@ -73,6 +73,9 @@ int main(int argv, char* argc[])
 	int badBidFlag[4] = { 0 };//各个方位叫牌错误次数
 	int bidcheck = -1;
 
+	int bidRecoder[100];//与game.bidRecoder内容相同，play阶段画图用
+	int bidCount = 1;//同上
+
 	//主要过程
 	while (1)
 	{
@@ -190,6 +193,17 @@ int main(int argv, char* argc[])
 				//调用绘制叫牌历史
 				drawcards.DrawBided(game.bidCount, game.bidRecoder);
 				//Sleep(500);
+
+				//存储叫牌记录，用来画定约方的图
+				if (game.bidCount != 0)
+				{
+					bidCount = game.bidCount;
+					for (int i = 0; i < bidCount; i++)
+					{
+						bidRecoder[i] = game.bidRecoder[i];
+					}
+				}
+
 			}
 			else
 			{
@@ -213,6 +227,8 @@ int main(int argv, char* argc[])
 				cleardevice();			//用背景色清空屏幕
 				game.GetCards(cards);
 				drawcards.DrawCards(cards);
+				drawcards.DrawTrick(game.trick);
+				drawcards.DrawContract(bidCount, bidRecoder);
 				//printf("======================================================\n");
 			}
 			if (playFlag == 0)//如果是刚开始打牌
@@ -286,6 +302,8 @@ int main(int argv, char* argc[])
 					cleardevice();			//用背景色清空屏幕
 					game.GetCards(cards);
 					drawcards.DrawCards(cards);
+					drawcards.DrawTrick(game.trick);
+					drawcards.DrawContract(bidCount, bidRecoder);
 					//drawcards.DrawBided(game.bidCount, game.bidRecoder);
 					//显示当前牌局
 					drawcards.DrawPlayed(leader, game.cardRecorder + (playFlag / 4 * 4));
@@ -534,6 +552,58 @@ void CardsImg::DrawBided(int  bidcount,int bidRecoder[100])
 	}
 }
 
+void CardsImg::DrawContract(int  bidcount, int bidRecoder[100])
+{
+	IMAGE pass;
+	loadimage(&pass, _T("./bids/01.jpg"));
+	if (bidRecoder[bidcount - 3] / 100 == 0)
+	{
+		if (bidRecoder[bidcount - 3] % 100 == 0)
+			putimage(180, 0, &pass);
+		else
+			putimage(180, 0, &bid_img[bidRecoder[bidcount - 3] % 100]);
+	}
+	else
+		if (bidRecoder[bidcount - 3] / 100 == 1)
+		{
+			if (bidRecoder[bidcount - 3] % 100 == 0)
+				putimage(760, 40, &pass);
+			else
+				putimage(760, 40, &bid_img[bidRecoder[bidcount - 3] % 100]);
+		}
+		else
+			if (bidRecoder[bidcount - 3] / 100 == 2)
+			{
+				if (bidRecoder[bidcount - 3] % 100 == 0)
+					putimage(180, 540, &pass);
+				else
+					putimage(180, 540, &bid_img[bidRecoder[bidcount - 3] % 100]);
+			}
+			else
+				if (bidRecoder[bidcount - 3] / 100 == 3)
+				{
+					if (bidRecoder[bidcount - 3] % 100 == 0)
+						putimage(0, 40, &pass);
+					else
+						putimage(0, 40, &bid_img[bidRecoder[bidcount - 3] % 100]);
+				}
+
+}
+void CardsImg::DrawTrick(int trick[4])
+{
+	TCHAR NS_Trick[2];
+	TCHAR WE_Trick[2];
+	int s[2] = { trick[0] + trick[2] ,trick[1] + trick[3] };
+	RECT r = { 540, 500, 650, 640 };
+	drawtext(_T("NS方赢墩:"), &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+	swprintf_s(NS_Trick, _T("%d"), s[0]);
+	outtextxy(640, 560, NS_Trick);
+	RECT x = { 540, 500, 900, 640 };
+	drawtext(_T("WE方赢墩:"), &x, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+	swprintf_s(WE_Trick, _T("%d"), s[1]);
+	outtextxy(770, 560, WE_Trick);
+
+}
 
 
 
