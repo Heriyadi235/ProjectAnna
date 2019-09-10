@@ -16,7 +16,7 @@ public:
 	IMAGE cards_img[52], cards_N_img[13], cards_E_img[13], cards_S_img[13], cards_W_img[13];
 	CardsImg(void);
 	void DrawCards(int cards[]);
-	void DrawBids(void);
+	void DrawBids(int avaliableBid[8][5]);
 	void DrawBided(int  bidcount,int bidRecoder[100]);
 	void DrawPlayed(int leader,int cards[4]);
 };

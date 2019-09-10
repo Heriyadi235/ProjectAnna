@@ -27,7 +27,10 @@ private:
 	SECURITY_DESCRIPTOR sd;               //管道安全信息们
 	PROCESS_INFORMATION pi;
 	HANDLE newstdin, newstdout, read_stdout, write_stdin;  //管道句柄们
-	
+
+	HANDLE aiJobObject = CreateJobObject(NULL, NULL); // 存放ai的工作空间
+	JOBOBJECT_EXTENDED_LIMIT_INFORMATION jeli = { 0 };
+
 	int downloadMessage(char msg[256]);	//下载命令，将AI的回复放进参数中接收的字符串
 	int uploadMessage(char* command);	//上传命令
 	void closepipe();

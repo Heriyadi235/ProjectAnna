@@ -154,6 +154,7 @@ int GetCard(short x, short y)
 		return -1;
 }
 int GetBid(short x, short y)
+//获取坐标对应的叫牌
 {
 
 
