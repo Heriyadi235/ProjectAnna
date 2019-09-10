@@ -10,7 +10,8 @@ int main(int argv, char* argc[])
 
 	initgraph(800, 600);   // 创建绘图窗口，大小为 640x480 像素
 	//circle(640/2, 480/2, 50); // 画圆，圆心(200, 200)，半径 100
-	setbkcolor(GREEN);
+	//setbkcolor(0x0BAD61);
+	setbkcolor(0x00C492);
 	cleardevice();
 	TCHAR input[80];
 	InputBox(
@@ -39,8 +40,8 @@ int main(int argv, char* argc[])
 	//line(40, 40, 40, 130*2);
 
 	GAME_STATUS game(dealer, seed,info[7], info[1], info[2]);//发牌方 种子 局况 当前轮 总轮
-	Player ai(_T("./ai.exe")); //乘3 将来要删掉
-	Player aiPosi[4] = { _T("./ai.exe") ,_T("./ai.exe") ,_T("./ai.exe") ,_T("./ai.exe") };
+	//Player ai(_T("./ai.exe")); //乘3 将来要删掉
+	Player aiPosi[4] = { _T("./north.exe") ,_T("./east.exe") ,_T("./south.exe") ,_T("./west.exe") };
 	//ai东南西北的ai加载 这个的下标是方位
 	/*希望在这里支持自由的ai数量配置*/
 	CardsImg drawcards;
@@ -48,17 +49,18 @@ int main(int argv, char* argc[])
 	wsprintf(output,_T("ai0状态%d,ai1状态%d,ai2状态%d,ai3状态%d"), aiPosi[0].StatuCheck(), aiPosi[1].StatuCheck(), aiPosi[2].StatuCheck(), aiPosi[3].StatuCheck());
 	outtextxy(0, 0, output);
 	//printf("创建完成");
+
 	//游戏的配置信息
 	int cards[52] = { 0 };
 	int playerHands[4][13] = { 0 };//跟cards[52]存的东西一样 仅有数据格式区别
-	int aicards[13] = { 0 };
+	//int aicards[13] = { 0 };
 	int avalibleCards[13];
 	int avalibleBid[8][5];
 	//int seed = 123;
 	int process = 0;
 	int leader = -1;
 
-	ai.UploadInfo(info);//乘3 将来要删掉
+	//ai.UploadInfo(info);//乘3 将来要删掉
 	for (int i = 0; i < 4; i++)
 	{
 		if (table[i] != -1)
@@ -68,7 +70,7 @@ int main(int argv, char* argc[])
 	}
 
 	int playFlag = 0;
-	int bidFlag = 0;//叫牌错误次数
+	int badBidFlag[4] = { 0 };//各个方位叫牌错误次数
 	int bidcheck = -1;
 
 	//主要过程
@@ -153,18 +155,23 @@ int main(int argv, char* argc[])
 			outtextxy(0, 0, output);
 
 			/*下面这些也要乘三*/
+			/**
 			if (currentPlayer == aiposition && bidFlag>1)
 				//如果ai之前已经发送了错误的叫牌命令 直接让其pass
-			{
+			{	//多AI先移除了这一功能
 				result = 0;
 			}
-			else if (currentPlayer == aiposition)
+			*/
+
+			 if (table[currentPlayer] != -1)
 			{
-				result = ai.InquireBid();
+				 if (badBidFlag[currentPlayer] > 1)
+					 result = 0;
+				 else
+					result = aiPosi[currentPlayer].InquireBid();
 				wsprintf(output,_T("ai叫牌%d\n"), result);
 				outtextxy(0, 14, output);
 			}
-
 			else
 			{
 				result = MakeBid(currentPlayer, avalibleBid[0]);
@@ -174,24 +181,26 @@ int main(int argv, char* argc[])
 			if (bidcheck == 0)//如果合法 不合法是-1
 			{
 				//这里需要有一个循环遍历四家 打牌时候也得是这样
-				if (currentPlayer != aiposition)//改成不等于当前ai方位呗 出牌到时候也得是
-				{
-					ai.UploadBid(result + currentPlayer * 100);
-				}
+				for (int i = 0; i < 4; i++)
+					if (table[i] != -1 && currentPlayer != i)
+					//if (currentPlayer != aiposition)//改成不等于当前ai方位呗 出牌到时候也得是
+					{
+						aiPosi[i].UploadBid(result + currentPlayer * 100);
+					}
 				//调用绘制叫牌历史
 				drawcards.DrawBided(game.bidCount, game.bidRecoder);
+				//Sleep(500);
 			}
 			else
 			{
-				bidFlag += 1;
+				badBidFlag[currentPlayer] += 1;
 			}
-				
 			break;
 	
 		case 2:
 			wsprintf(output,_T("打牌\n"));
 			outtextxy(0, 14, output);
-		
+			
 			if (aiposition == game.dummy)//这个判断届时可以删除了
 			{
 				wsprintf(output, _T("该方位为明手\n现在可以关闭了"));
@@ -208,12 +217,14 @@ int main(int argv, char* argc[])
 			}
 			if (playFlag == 0)//如果是刚开始打牌
 			{
-				//乘三
-				ai.UploadContover(game.banker * 1000 + game.contover * 100 + game.trump * 10 + game.dbl);
+				for (int i = 0 ;i<4 ; i++)
+					if (table[i]!= -1)
+						aiPosi[i].UploadContover(game.banker * 1000 + game.contover * 100 + game.trump * 10 + game.dbl);
 				//在这里告诉AI订约
 			}
 			if (playFlag == 1)//如果是首攻完事
 			{
+				/*
 				for (int i = 0, j = 0; i < 52; i++)
 				{
 					if (cards[i] == game.dummy)
@@ -222,7 +233,12 @@ int main(int argv, char* argc[])
 					}
 				}
 				//乘三
-				ai.UploadDummy(game.dummy, aicards);
+				*/
+				for (int i = 0; i<4; i++)
+					if (table[i] != -1)
+						aiPosi[i].UploadDummy(game.dummy, playerHands[game.dummy]);
+					//else
+						//翻牌
 			}
 			
 			for (int i = 0; i < 13; i++)
@@ -238,34 +254,34 @@ int main(int argv, char* argc[])
 				drawcards.DrawBided(game.bidCount, game.bidRecoder);
 				//开始询问出牌
 				
-				if (aiposition == currentPlayer)//ai出牌
+				if (table[currentPlayer] != -1 && (currentPlayer != game.dummy))//ai出牌
 				{
+					
 					wsprintf(output,_T("等待ai出牌...\n"));
 					outtextxy(0, 14, output);
-					result = ai.InquirePlay(currentPlayer);
+					result = aiPosi[currentPlayer].InquirePlay(currentPlayer);
 					
 				}
-				else if ((aiposition == game.banker) && (currentPlayer == game.dummy))//ai为明手出牌
+				else if ((table[game.banker] != -1) && (currentPlayer == game.dummy))//ai为明手出牌
 				{
 					wsprintf(output, _T("等待ai为明手出牌...\n"));
 					outtextxy(0, 14, output);
-					result = ai.InquirePlay(currentPlayer);
+					result = aiPosi[game.banker].InquirePlay(currentPlayer);
 					//ai.UploadPlay(process % 10, result);
 				}
 				else
 				{
 					result = ChoseCardToPlay(currentPlayer, avalibleCards);
-					
 				}
 				
-				if (game.PLAY(currentPlayer, result / 4 + 2, result % 4) == 0)
+				if (game.PLAY(currentPlayer, result / 4 + 2, result % 4) == 0)//出牌合法验证
 				{
 					//这里控制给ai转发出牌信息
 					//if (process % 10 != aiposition || (game.banker == aiposition && process % 10== game.dummy))//警告
-					if (currentPlayer != aiposition )
-					{
-						ai.UploadPlay(currentPlayer, result);//合法则上传给AI出牌信息
-					}
+					for (int i = 0; i<4; i++)
+						if (table[i] != -1 && currentPlayer != i)
+							aiPosi[i].UploadPlay(currentPlayer, result);//合法则上传给AI出牌信息
+
 
 					cleardevice();			//用背景色清空屏幕
 					game.GetCards(cards);
@@ -283,18 +299,29 @@ int main(int argv, char* argc[])
 			wsprintf(output,_T("score:%d\n"), score);
 			outtextxy(0, 14, output);
 			MessageBox(NULL, TEXT("对局结束！"), TEXT("Info"), MB_OK);
-			ai.UploadOverMsg(game.GetResult());
-			//game.SetForNewGame();
-			game.gameStatus = 5;
-			break;
+			for (int i=0;i<4;i++)
+				if(table[i]!=-1)
+				aiPosi[i].UploadOverMsg(game.GetResult());
 			
+
+			game.SetForNewGame();
+
+			process = 0;
+			leader = -1;
+
+			playFlag = 0;
+			badBidFlag[0] =  0 ;
+			badBidFlag[1] = 0;
+			badBidFlag[2] = 0;
+			badBidFlag[3] = 0;
+			bidcheck = -1;
+			game.gameStatus = 0;
+			break;
 		}
 	}
-		
-		delete &ai;
+		//delete &ai;
 		delete &game;
 		return 0;
-	
 }
 
 CardsImg::CardsImg(void)
@@ -506,9 +533,6 @@ void CardsImg::DrawBided(int  bidcount,int bidRecoder[100])
 		}
 	}
 }
-
-
-
 
 
 
