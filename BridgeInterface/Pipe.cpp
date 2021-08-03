@@ -23,7 +23,7 @@ int Player::downloadMessage(char msg[256])
 			memcpy_s(msg,sizeof(this->buf),this->buf,sizeof(this->buf));
 			break;
 		}
-		Sleep(1000);
+		Sleep(500);
 	}
 	ofstream fcout;
 	fcout.open("communitionlog.txt", ios::app);

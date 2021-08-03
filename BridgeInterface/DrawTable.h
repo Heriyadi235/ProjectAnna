@@ -19,5 +19,7 @@ public:
 	void DrawBids(int avaliableBid[8][5]);
 	void DrawBided(int  bidcount,int bidRecoder[100]);
 	void DrawPlayed(int leader,int cards[4]);
+	void DrawContract(int  bidcount, int bidRecoder[100]);	//加入定约情况的显示
+	void DrawTrick(int trick[4]);							//加入赢墩的显示
 };
 
