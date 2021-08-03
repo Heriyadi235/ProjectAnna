@@ -1,6 +1,9 @@
 #include"stdafx.h"
 #include<VersionHelpers.h>
 #include"Pipe.h"
+
+#define delayMicroSecond 100
+
 using namespace std;
 int Player::downloadMessage(char msg[256])
 {
@@ -23,11 +26,13 @@ int Player::downloadMessage(char msg[256])
 			memcpy_s(msg,sizeof(this->buf),this->buf,sizeof(this->buf));
 			break;
 		}
-		Sleep(500);
+		Sleep(delayMicroSecond);
 	}
 	ofstream fcout;
-	fcout.open("communitionlog.txt", ios::app);
-	fcout << "RX:" << msg << endl;
+	fcout.open("communication.log", ios::app);
+	//TODO: 我也不知道怎么输出LPCWSTR
+	//fcout << name << endl;
+	fcout << "RX:" << msg;
 	fcout.close();
 	return 0;
 }
@@ -35,8 +40,9 @@ int Player::downloadMessage(char msg[256])
 int Player::uploadMessage(char* command)
 {
 	ofstream fcout;
-	fcout.open("communitionlog.txt", ios::app);
-	fcout <<"TX:"<< command << endl;
+	fcout.open("communication.log", ios::app);
+	fcout << "["<<this->name <<"]"<< endl;
+	fcout <<"TX:"<< command ;
 	fcout.close();
 
 	GetExitCodeProcess(pi.hProcess, &exit);
@@ -261,13 +267,15 @@ void Player::ErrorHandler(void)
 		NULL
 					);
 	//printf("info: %s\n", msg);
-	MessageBox(NULL, msg, TEXT("Pipe Error"), MB_OK);
+	MessageBox(NULL, msg, TEXT("Pipe Error"), MB_OK | MB_SYSTEMMODAL);
 	LocalFree((HLOCAL)msg);
 }
 
-Player::Player(LPCWSTR path)
+Player::Player(LPCWSTR path, const char *playerName)
 {
-	
+	//string this->name = playerName;
+	//sscanf_s(playerName, "%s", this->name);
+	strcpy_s(this->name, playerName);
 	if (IsWindowsXPOrGreater())        //初始化管道安全设置
 	{
 		InitializeSecurityDescriptor(&this->sd, SECURITY_DESCRIPTOR_REVISION);
@@ -279,7 +287,7 @@ Player::Player(LPCWSTR path)
 
 	if (this->aiJobObject == NULL)
 	{
-		::MessageBox(0, _T("Could not create job object"), _T("Error"), MB_OK);
+		::MessageBox(0, _T("Could not create job object"), _T("Error"), MB_OK | MB_SYSTEMMODAL);
 		//this->ErrorHandler();
 		return;
 	}
@@ -287,7 +295,7 @@ Player::Player(LPCWSTR path)
 	this->jeli.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE;
 	if (0 == SetInformationJobObject(aiJobObject, JobObjectExtendedLimitInformation, &this->jeli, sizeof(this->jeli)))
 	{
-		::MessageBox(0, _T("Could not SetInformationJobObject"), _T("Error"), MB_OK);
+		::MessageBox(0, _T("Could not SetInformationJobObject"), _T("Error"), MB_OK | MB_SYSTEMMODAL);
 		return;
 	}
 
@@ -332,7 +340,7 @@ Player::Player(LPCWSTR path)
 	}
 	if (0 == AssignProcessToJobObject(this->aiJobObject, this->pi.hProcess))
 	{
-		::MessageBox(0, _T("Could not AssignProcessToObject"), _T("Error"), MB_OK);
+		::MessageBox(0, _T("Could not AssignProcessToObject"), _T("Error"), MB_OK | MB_SYSTEMMODAL);
 		return;
 	}
 	this->PipeStatus = 1;

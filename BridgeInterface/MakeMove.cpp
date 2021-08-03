@@ -24,13 +24,13 @@ int ChoseCardToPlay(int posi ,int avaliableCards[13])
 	
 	//int posipixel[4] = { 40,700,460,40 };//NSy EWx
 	//接收鼠标读取函数
-	FlushMouseMsgBuffer();
-	MOUSEMSG move;
+	flushmessage();
+	EASYXMSG move;
 	//line(0, 0, 480, 480);
 	while (1)
 	{//等待鼠标事件
-		move = GetMouseMsg();
-		if (move.mkLButton)
+		move = getmessage(EM_MOUSE);
+		if (move.lbutton)
 		{
 			
 			card = GetCard(move.x, move.y);
@@ -71,13 +71,13 @@ int MakeBid(int posi,int avaliableBid[])
 	TCHAR point[50];
 	wsprintf(point, _T("选择%d的叫牌\n"), posi);
 	outtextxy(0, 14, point);
-	FlushMouseMsgBuffer();
-	MOUSEMSG move;
+	flushmessage();
+	EASYXMSG move;
 	//line(0, 0, 480, 480);
 	while (1)
 	{//等待鼠标事件
-		move = GetMouseMsg();
-		if (move.mkLButton)
+		move = getmessage(EM_MOUSE);
+		if (move.lbutton)
 		{
 			bid = GetBid(move.x, move.y);
 			

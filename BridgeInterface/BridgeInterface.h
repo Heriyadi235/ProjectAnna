@@ -16,7 +16,7 @@ private:
 	int firstAttack;
 	
 	int avaliableBidCount;		//不算加倍叫了几次
-	int nowPlayerPosition;		//当前轮到的玩家 0-3 N-W -1E
+	int nowPlayerPosition;		//当前轮到的玩家 0-3 NESW
 
 	void ErrorHandler(int code);
 	int PositionNext(void);		//使类中当前玩家指向下一家
@@ -33,18 +33,20 @@ public:
 	int seed;					//种子
 	
 	char eventName[20];
-	char NSName[20];
-	char EWName[20];
+	char NorthName[20];
+	char SouthName[20];
+	char EastName[20];
+	char WestName[20];
 	char pbnName[80];			//pbn文件名
-	int dealerPosition;			//发牌方 0-3 N-W -1E
+	int dealerPosition;			//发牌方 0-3 NESW
 	int cardPosition[2][52];	//纸牌方位 第一行方位 第二行是否在手 0-3 N-W 0-1 -1E 		
 	int cardRecorder[52];		//出牌记录 0-51 CARDCODE
 	int bidRecoder[100];		//第一位方位 第二位阶数 第三位花色 000北方pass 080北方加倍 015北方1NT 
 	int trump;					//将牌	 1-5
 	int contover;				//承诺赢墩1-7
 	int dbl;					//加倍情况 0 8 9
-	int nowBid;					//当前叫到的花色 第一位方位 第一位阶数 第二位花色 000北方pass  015北方1NT 
-	int vulnerable;				//局况 0-NEITHER 1-NS 2-EW 3-BOTH -1E
+	int nowBid;					//当前叫到的花色 第一位方位 第二位阶数 第三位花色 000北方pass  015北方1NT 
+	int vulnerable;				//局况 0-NEITHER 1-NS 2-EW 3-BOTH 
 	int banker;					//庄家
 	int dummy;					//明手
 	int score;					//分数

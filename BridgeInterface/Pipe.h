@@ -39,6 +39,7 @@ private:
 	//上面是管道的实现
 	//下面是协议的操作
 	int PipeStatus;//1正常
+	char name[80]; //ai名称，默认为程序名
 
 public:
 	//以下所有函数都是成功返回0
@@ -54,6 +55,6 @@ public:
 	
 	int StatuCheck(void);//状态检查，只能在创建连接后调用
 	char ToPositionLetter(int num);//将 0 1 2 3转换为 NESW
-	Player(LPCWSTR path);//构造函数 传入ai目录位置 
+	Player(LPCWSTR path, const char *playerName);//构造函数 传入ai目录位置 
 	~Player();
 };
