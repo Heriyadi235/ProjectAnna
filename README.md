@@ -1,7 +1,7 @@
 ## ProjectAnna
 
 - ProjectAnna is a bridge game program based our later work for CGA  
-- ProjectAnna 是一个基于我们在计算机博弈锦标赛作品~~开发~~瞎几把改出来的桥牌游戏  
+- ProjectAnna 是一个基于我们在计算机博弈锦标赛作品~~开发~~瞎改出来的桥牌对战平台  
 
   `桥牌` `计算机博弈`
 
@@ -74,7 +74,7 @@ Computer Bridge Game!
 ```markdown
 ### 食用方法
 ```markdown
-这我哪知道啊，我就知道那小娘们儿长得 嘿！
+参考：循环赛脚本文件夹
 ```
 ### 目前的bug
 ```markdown
