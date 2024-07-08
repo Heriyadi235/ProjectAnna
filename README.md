@@ -1,3 +1,5 @@
+## 在线桥牌对局平台
+该分支为在线桥牌对局平台，具体使用方法请参考[这个文档](https://github.com/Heriyadi235/ProjectAnna/tree/NetworkGame/%E5%BE%AA%E7%8E%AF%E8%B5%9B%E8%84%9A%E6%9C%AC/Documents)
 ## ProjectAnna
 
 - ProjectAnna is a bridge game program based our later work for CGA  
@@ -63,27 +65,6 @@ for (int i = 0; i < 4; i++)
 }
 ```
 
-### 简介
-I have an ~~apple~~ _computer brige AI_  
-I have a ~~pen~~ _bridge game platform_   
- **duang!**  
-Computer Bridge Game!
-### 文件
-```markdown
-这我哪知道啊，我就知道那小娘们儿长得 嘿！
-```markdown
-### 食用方法
-```markdown
-参考：循环赛脚本文件夹
-```
-### 目前的bug
-```markdown
-这我哪知道啊，我就知道那小娘们儿长得 嘿！
-```
-### 最后一项
-```markdown
-这我哪知道啊，不过啊，我知道她爹姓许，就是东关卖水那许老头
-```
 [ 作者的邮箱 ](mailto:1945893330@qq.com) _和_
 [ 作者的邮箱 ](mailto:785629645@qq.com)  
 [ 一个主页 ](https://heriyadi235.github.io/ProjectAnna/)
