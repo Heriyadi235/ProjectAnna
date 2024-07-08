@@ -58,10 +58,11 @@ int main(int argv, char* argc[])
 
 	GAME_STATUS game(dealer, seed, info[7], info[1], info[2]);//发牌方 种子 局况 当前轮 总轮
 	//Player ai(_T("./ai.exe")); //乘3 将来要删掉
-	Player aiPosi[4] = { Player(_T("./north.exe"), "north"),
-		Player(_T("./east.exe"), "east"),
-		Player(_T("./south.exe"), "south"),
-		Player(_T("./west.exe"), "west")
+	Player aiPosi[4] = { 
+		Player(L"./BridgeGameAgentNorth.exe", "north"),
+		Player(L"./BridgeGameAgentEast.exe", "east"),
+		Player(L"./BridgeGameAgentSouth.exe", "south"),
+		Player(L"./BridgeGameAgentWest.exe", "west")
 	};
 	
 	//ai东南西北的ai加载 这个的下标是方位
@@ -175,7 +176,7 @@ int main(int argv, char* argc[])
 			for (int i = 0; i < (game.nowBid / 10 % 10 - 1); i++)
 				for (int j = 0; j < 5; j++)
 					avalibleBid[i][j] = -1;//划掉不能叫的行
-			for (int i = 0; i <= (game.nowBid % 10); i++)
+			for (int i = 0; i < (game.nowBid % 10); i++)
 				avalibleBid[(game.nowBid / 10 % 10 - 1) % 8][i] = -1;//划掉不能叫的列
 
 			drawcards.DrawBids(avalibleBid);

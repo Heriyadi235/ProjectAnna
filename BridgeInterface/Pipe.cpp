@@ -124,10 +124,13 @@ int Player::UploadDeal(int posi, int cards[13])
 }
 
 int Player::UploadDummy(int posi, int cards[13])
+//int Player::UploadDummy(int posi, int cards0, int cards1, int cards2, int cards3, int cards4, int cards5, int cards6, int cards7, int cards8, int cards9, int cards10, int cards11, int cards12)
+//不知道为什么直接传递数组的话有概率其中一
 {
 	char position = this->ToPositionLetter(posi);
 	char DummyMsg[50];
 	char result[256];
+	//sprintf_s(DummyMsg, "DUMMY %c%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n", position, cards0, cards1, cards2, cards3, cards4, cards5, cards6, cards7, cards8, cards9, cards10, cards11, cards12);
 	sprintf_s(DummyMsg, "DUMMY %c%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n", position, cards[0], cards[1], cards[2], cards[3], cards[4], cards[5], cards[6], cards[7], cards[8], cards[9], cards[10], cards[11], cards[12]);
 	if (this->PipeStatus == 1)
 	{
@@ -241,7 +244,7 @@ int Player::UploadOverMsg(int gameresult)
 	//printf("墩%d\n", gameresult - ((gameresult / 100) * 100));
 
 
-	sprintf_s(OverMsg, "GAMEOVER  %c%d\n", this->ToPositionLetter(gameresult /100), gameresult -((gameresult /100)*100));
+	sprintf_s(OverMsg, "GAMEOVER %c%d\n", this->ToPositionLetter(gameresult /100), gameresult -((gameresult /100)*100));
 	if (this->PipeStatus == 1)
 	{
 		this->uploadMessage(OverMsg);
@@ -271,7 +274,7 @@ void Player::ErrorHandler(void)
 	LocalFree((HLOCAL)msg);
 }
 
-Player::Player(LPCWSTR path, const char *playerName)
+Player::Player(const wchar_t* path, const char *playerName)
 {
 	//string this->name = playerName;
 	//sscanf_s(playerName, "%s", this->name);
@@ -327,7 +330,11 @@ Player::Player(LPCWSTR path, const char *playerName)
 	this->si.hStdError = this->newstdout;     //为子进程设置句柄
 	this->si.hStdInput = this->newstdin;
 	//char app_spawn[] = "";//设置子进程
-	if (!CreateProcess(path, NULL, NULL, NULL, TRUE, CREATE_NEW_CONSOLE,
+
+	size_t pathStrLength = wcslen(path);
+	wchar_t* mutablePathString = new wchar_t[pathStrLength + 1];
+	wcscpy_s(mutablePathString, pathStrLength + 1, path);
+	if (!CreateProcess(NULL, mutablePathString, NULL, NULL, TRUE, CREATE_NEW_CONSOLE,
 		NULL, NULL, &this->si, &this->pi))
 	{
 		this->ErrorHandler();
@@ -338,6 +345,7 @@ Player::Player(LPCWSTR path, const char *playerName)
 		CloseHandle(write_stdin);
 		return;
 	}
+	delete[] mutablePathString;
 	if (0 == AssignProcessToJobObject(this->aiJobObject, this->pi.hProcess))
 	{
 		::MessageBox(0, _T("Could not AssignProcessToObject"), _T("Error"), MB_OK | MB_SYSTEMMODAL);

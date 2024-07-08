@@ -1,0 +1,22 @@
+[Event "CGA_Bridge"]
+[Site " ? "]
+[Date "?"]
+[Board "1"]
+[West "%WestName%"]
+[North "%NorthName%"]
+[East "%EastName%"]
+[South "%SouthName%"]
+[Dealer "N"]
+[Vulnerable  "None"]
+[Deal "W:39.3TJ.9K.2679TA 57Q.4.2348TJ.58J 468JA.268.6A.3QK 2TK.579QKA.57Q.4"]
+[Auction "N"]
+Pass 1S 2H Pass
+Pass 2S 3H Pass
+Pass 3S Pass Pass
+Pass 
+[Declarer "E"]
+[Contract "3S"]
+[Play "S"]
+HA HJ H4 H2
+DQ DK D2 D6
+C4 CA C5 C3

@@ -46,6 +46,7 @@ public:
 	int UploadInfo(int info[8]);//八位数组 协议里的Info的八项 成功返回0
 	int UploadDeal(int posi, int cards[13]);//一位方向代码 十三位牌号
 	int UploadDummy(int posi, int cards[13]);//一位方向代码 十三位牌号
+	//int UploadDummy(int posi, int cards0, int cards1, int cards2, int cards3, int cards4, int cards5, int cards6, int cards7, int cards8, int cards9, int cards10, int cards11, int cards12);
 	int InquireBid();//成功返回一个两位数 十位是阶数（1-9） 个位是花色（0-5）
 	int UploadBid(int bid);//上传一个三位数 百位方位 十位阶数（1-9） 个位花色（0-5）成功返回0
 	int UploadContover(int contover);//上传一个四位数 千位方位 百位阶数（1-9） 十位花色（0-5）个位加倍情况成功返回0
@@ -55,6 +56,6 @@ public:
 	
 	int StatuCheck(void);//状态检查，只能在创建连接后调用
 	char ToPositionLetter(int num);//将 0 1 2 3转换为 NESW
-	Player(LPCWSTR path, const char *playerName);//构造函数 传入ai目录位置 
+	Player(const wchar_t *path, const char *playerName);//构造函数 传入ai目录位置 
 	~Player();
 };

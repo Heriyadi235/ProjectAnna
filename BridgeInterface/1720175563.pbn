@@ -1,0 +1,19 @@
+[Event "CGA_Bridge"]
+[Site " ? "]
+[Date "?"]
+[Board "1"]
+[West "%WestName%"]
+[North "%NorthName%"]
+[East "%EastName%"]
+[South "%SouthName%"]
+[Dealer "N"]
+[Vulnerable  "None"]
+[Deal "W:6QA.2489JQK.7K.T 35TJ.3A.259.268Q 279.6.348JQ.59JA 48K.57T.6TA.347K"]
+[Auction "N"]
+Pass Pass Pass Pass
+
+[Scoring "IMP"]
+[Result "0"]
+[Score "NS 0"]
+*
+
