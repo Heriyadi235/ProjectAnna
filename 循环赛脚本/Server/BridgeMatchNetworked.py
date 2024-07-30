@@ -303,7 +303,7 @@ class MatchData(object):
 if __name__ == '__main__':
     #启动服务器等待队伍列表加载
     
-    host = 'localhost'
+    host = '0.0.0.0'
     port = 37001
     server = BridgeGameServer(host,port)
     timestamp = datetime.now().strftime("[%Y-%m-%d %H:%M:%S] ")
@@ -351,5 +351,5 @@ if __name__ == '__main__':
     xlFile = pd.ExcelWriter('./%s.xlsx' % config.seeds[0])
     scoreSheet = pd.DataFrame(game.score.score)
     scoreSheet.to_excel(xlFile)
-    xlFile.save()
+    xlFile.close()
     os.remove('score.tmp')

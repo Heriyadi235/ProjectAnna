@@ -7,17 +7,20 @@ import os
 from datetime import datetime
 import tkinter.messagebox as messagebox
 
+global sock, process
+global path_entry, ip_entry, port_entry, output_text
+    
+process = None
+sock = None
+
 def select_program_path():
     path = filedialog.askopenfilename(filetypes=[("Executable Files", "*.exe")])
     if path:
         path_entry.delete(0, tk.END)
         path_entry.insert(tk.END, path)
 
-
 def start_program():
-    global sock, process
-    global path_entry, ip_entry, port_entry, output_text
-    
+
     # 获取输入框的内容
     path = path_entry.get()
     ip = ip_entry.get()
@@ -91,10 +94,12 @@ def start_program():
 
 def quit_program():
 
+    if process:
     # 结束子进程
-    process.terminate()
-    # 关闭套接字
-    sock.close()
+        process.terminate()
+    if sock:
+        # 关闭套接字
+        sock.close()
     # 退出程序
     root.destroy()
 
@@ -153,6 +158,6 @@ output_text.pack(padx=10, pady=10)
 # 退出按钮
 quit_button = tk.Button(root, text="退出", command=quit_program)
 quit_button.pack(pady=10)
-
+root.protocol("WM_DELETE_WINDOW", quit_program)
 # 运行主循环
 root.mainloop()
